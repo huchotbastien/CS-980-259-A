@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guide de montage — CS 980 259 A</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --yellow: #E8B820;
+    --yellow-dark: #C49A10;
+    --bg: #3A3F47;
+    --bg-dark: #2B2F36;
+    --bg-card: #444950;
+    --mid: #9AA0A8;
+    --white: #FDFCFA;
+    --line: rgba(255,255,255,0.08);
+  }
+  html, body {
+    background: var(--bg);
+    font-family: 'Barlow', sans-serif;
+    color: var(--white);
+    height: 100%;
+    overflow: hidden;
+  }
+
+  /* LAYOUT : colonne fixe en haut, sommaire scrollable en bas */
+  #app {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    height: 100dvh;
+  }
+
+  .top-bar {
+    background: var(--bg-dark);
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .brand-mark { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 16px; color: var(--yellow); letter-spacing: 0.12em; text-transform: uppercase; }
+  .doc-ref { font-size: 11px; color: var(--mid); letter-spacing: 0.10em; text-transform: uppercase; }
+
+  .step-hero {
+    background: var(--bg-dark);
+    padding: 16px 24px 14px;
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .step-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 3px; }
+  .step-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 30px; color: var(--white); line-height: 1.05; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 3px; }
+  .step-count { font-size: 12px; color: var(--mid); }
+  .progress-track { background: rgba(255,255,255,0.10); height: 3px; width: 100%; margin-top: 12px; border-radius: 2px; overflow: hidden; }
+  .progress-fill { height: 100%; background: var(--yellow); border-radius: 2px; transition: width 0.4s ease; }
+
+  .video-section {
+    padding: 14px 24px 10px;
+    background: var(--bg-dark);
+    flex-shrink: 0;
+  }
+  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 6px; overflow: hidden; }
+  .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+
+  .nav-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    padding: 10px 24px 12px;
+    background: var(--bg-dark);
+    border-bottom: 1px solid var(--line);
+    flex-shrink: 0;
+  }
+  .nav-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: var(--bg-card); color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.18s; }
+  .nav-btn:hover { background: #4f555e; border-color: rgba(255,255,255,0.25); }
+  .nav-btn:active { transform: scale(0.97); }
+  .nav-btn:disabled { opacity: 0.20; cursor: default; pointer-events: none; }
+  .nav-btn svg { width: 16px; height: 16px; stroke: var(--mid); stroke-width: 2.5; fill: none; flex-shrink: 0; }
+  .btn-next { background: var(--yellow); color: var(--bg-dark); border-color: var(--yellow); }
+  .btn-next svg { stroke: var(--bg-dark); }
+  .btn-next:hover { background: var(--yellow-dark); border-color: var(--yellow-dark); }
+  .btn-next:disabled { background: var(--bg-card); border-color: var(--bg-card); color: var(--mid); }
+
+  /* SOMMAIRE SCROLLABLE */
+  .chapters-section {
+    flex: 1;
+    overflow-y: auto;
+    padding: 16px 24px 24px;
+    -webkit-overflow-scrolling: touch;
+  }
+  .chapters-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
+  .chapter-list { display: flex; flex-direction: column; gap: 2px; }
+  .chapter-item { display: flex; align-items: center; gap: 14px; padding: 10px 12px; border-radius: 4px; cursor: pointer; transition: background 0.15s; border-left: 2px solid transparent; }
+  .chapter-item:hover { background: var(--bg-card); }
+  .chapter-item.active { background: var(--bg-card); border-left: 2px solid var(--yellow); }
+  .chapter-item.done .ch-name { color: var(--mid); }
+  .chapter-item.done .ch-num { color: rgba(255,255,255,0.18); }
+  .ch-num { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 11px; letter-spacing: 0.10em; color: var(--yellow); min-width: 36px; text-transform: uppercase; }
+  .ch-name { font-size: 14px; color: var(--white); flex: 1; }
+  .chapter-item.active .ch-name { font-weight: 500; }
+  .ch-time { font-size: 12px; color: var(--mid); font-variant-numeric: tabular-nums; }
+
+  @media (max-width: 480px) {
+    .top-bar { padding: 10px 16px; }
+    .step-hero { padding: 12px 16px 12px; }
+    .step-name { font-size: 24px; }
+    .video-section { padding: 10px 16px 8px; }
+    .nav-section { padding: 8px 16px 10px; }
+    .chapters-section { padding: 12px 16px 20px; }
+  }
+</style>
+</head>
+<body>
+<div id="app">
+
+  <div class="top-bar">
+    <span class="brand-mark">Guide de montage</span>
+    <span class="doc-ref">CS 980 259 A</span>
+  </div>
+
+  <div class="step-hero">
+    <div class="step-tag" id="step-tag">Introduction</div>
+    <div class="step-name" id="step-name">Introduction</div>
+    <div class="step-count" id="step-count">Étape 1 sur 21</div>
+    <div class="progress-track">
+      <div class="progress-fill" id="progress-fill" style="width: 4.76%"></div>
+    </div>
+  </div>
+
+  <div class="video-section">
+    <div class="video-wrap">
+      <iframe id="yt-player"
+        src="https://www.youtube.com/embed/4XRWs2hcHJg?enablejsapi=1&start=0&rel=0&modestbranding=1"
+        allow="autoplay; encrypted-media"
+        allowfullscreen>
+      </iframe>
+    </div>
+  </div>
+
+  <div class="nav-section">
+    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>
+      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+      Précédent
+    </button>
+    <button class="nav-btn btn-next" id="btn-next" onclick="navigate(1)">
+      Suivant
+      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+
+  <div class="chapters-section">
+    <div class="chapters-label">Sommaire</div>
+    <div class="chapter-list" id="chapter-list"></div>
+  </div>
+
+</div>
+
+<script>
+const VIDEO_ID = '4XRWs2hcHJg';
+const steps = [
+  { label: "Introduction",  time: 0 },
+  { label: "Prérequis",     time: 30 },
+  { label: "Étape 4",       time: 75 },
+  { label: "Étape 5",       time: 104 },
+  { label: "Étape 6.2",     time: 166 },
+  { label: "Étape 6.4",     time: 200 },
+  { label: "Étape 7.1",     time: 217 },
+  { label: "Étape 7.2",     time: 235 },
+  { label: "Étape 7.3",     time: 247 },
+  { label: "Étape 7.4",     time: 258 },
+  { label: "Étape 8",       time: 285 },
+  { label: "Étape 9.1",     time: 301 },
+  { label: "Étape 10",      time: 327 },
+  { label: "Étape 11.1",    time: 365 },
+  { label: "Étape 11.2",    time: 377 },
+  { label: "Étape 12.2",    time: 411 },
+  { label: "Étape 12.4",    time: 424 },
+  { label: "Étape 13",      time: 503 },
+  { label: "Étape 13.4",    time: 513 },
+  { label: "Étape finale",  time: 545 },
+  { label: "Conseils",      time: 564 }
+];
+
+let current = 0;
+let player = null;
+let trackInterval = null;
+
+const tag = document.createElement('script');
+tag.src = 'https://www.youtube.com/iframe_api';
+document.head.appendChild(tag);
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('yt-player', {
+    events: {
+      onReady: function() { startTracking(); },
+      onStateChange: function(e) {
+        if (e.data === YT.PlayerState.PLAYING) startTracking();
+        else stopTracking();
+      }
+    }
+  });
+}
+
+function startTracking() {
+  stopTracking();
+  trackInterval = setInterval(function() {
+    if (!player || !player.getCurrentTime) return;
+    const t = player.getCurrentTime();
+    // Trouver le chapitre correspondant au timecode actuel
+    let idx = 0;
+    for (let i = steps.length - 1; i >= 0; i--) {
+      if (t >= steps[i].time) { idx = i; break; }
+    }
+    if (idx !== current) updateUI(idx);
+  }, 500);
+}
+
+function stopTracking() {
+  if (trackInterval) { clearInterval(trackInterval); trackInterval = null; }
+}
+
+function fmtTime(s) {
+  const m = Math.floor(s / 60);
+  const sec = Math.floor(s % 60);
+  return m + ':' + String(sec).padStart(2, '0');
+}
+
+function getTag(i) {
+  if (i === 0) return 'Introduction';
+  if (i === steps.length - 1) return 'Document technique';
+  return 'Montage';
+}
+
+function updateUI(index) {
+  current = index;
+  const step = steps[current];
+  document.getElementById('step-tag').textContent = getTag(current);
+  document.getElementById('step-name').textContent = step.label;
+  document.getElementById('step-count').textContent = 'Étape ' + (current + 1) + ' sur ' + steps.length;
+  document.getElementById('progress-fill').style.width = Math.round(((current + 1) / steps.length) * 100) + '%';
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === steps.length - 1;
+  document.querySelectorAll('.chapter-item').forEach((el, i) => {
+    el.className = 'chapter-item' + (i === current ? ' active' : i < current ? ' done' : '');
+  });
+  document.querySelectorAll('.chapter-item')[current].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+}
+
+function goTo(index) {
+  updateUI(index);
+  if (player && player.seekTo) {
+    player.seekTo(steps[index].time, true);
+    player.playVideo();
+  } else {
+    document.getElementById('yt-player').src =
+      'https://www.youtube.com/embed/' + VIDEO_ID + '?enablejsapi=1&start=' + steps[index].time + '&autoplay=1&rel=0&modestbranding=1';
+  }
+}
+
+function navigate(dir) {
+  const next = current + dir;
+  if (next >= 0 && next < steps.length) goTo(next);
+}
+
+const list = document.getElementById('chapter-list');
+steps.forEach((s, i) => {
+  const el = document.createElement('div');
+  el.className = 'chapter-item' + (i === 0 ? ' active' : '');
+  const numLabel = i === 0 ? 'Intro' : i === steps.length - 1 ? 'Fin' : String(i).padStart(2, '0');
+  el.innerHTML =
+    '<span class="ch-num">' + numLabel + '</span>' +
+    '<span class="ch-name">' + s.label + '</span>' +
+    '<span class="ch-time">' + fmtTime(s.time) + '</span>';
+  el.onclick = () => goTo(i);
+  list.appendChild(el);
+});
+</script>
+</body>
+</html>
