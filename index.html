@@ -18,63 +18,160 @@
     --white: #FDFCFA;
     --line: rgba(255,255,255,0.08);
   }
-  html, body {
-    background: var(--bg);
-    font-family: 'Barlow', sans-serif;
-    color: var(--white);
-    height: 100%;
-    overflow: hidden;
+  html, body { background: var(--bg); font-family: 'Barlow', sans-serif; color: var(--white); margin: 0; height: 100%; }
+
+  /* ===================== */
+  /* DESKTOP (>768px)      */
+  /* ===================== */
+  @media (min-width: 769px) {
+    body { overflow: hidden; height: 100vh; }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      grid-template-rows: 100vh;
+      height: 100vh;
+    }
+
+    /* Colonne gauche */
+    .col-left {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+      border-right: 1px solid var(--line);
+    }
+
+    .top-bar {
+      background: var(--bg-dark);
+      padding: 14px 28px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    .step-hero {
+      background: var(--bg-dark);
+      padding: 18px 28px 16px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .step-name { font-size: 34px; }
+
+    .video-section {
+      background: var(--bg-dark);
+      padding: 16px 28px 12px;
+      flex-shrink: 0;
+      transition: all 0.3s ease;
+    }
+    .video-section.reduit { padding: 8px 28px 8px; }
+    .video-section.masque { padding: 0; overflow: hidden; max-height: 0; }
+
+    .nav-section {
+      padding: 10px 28px 12px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    .view-toggle {
+      padding: 8px 28px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    /* Colonne droite : sommaire */
+    .col-right {
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      background: var(--bg-dark);
+    }
+
+    .sommaire-header {
+      padding: 18px 20px 10px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+
+    .chapters-section {
+      flex: 1;
+      overflow-y: auto;
+      padding: 12px 16px 24px;
+      -webkit-overflow-scrolling: touch;
+    }
   }
 
-  /* LAYOUT : colonne fixe en haut, sommaire scrollable en bas */
-  #app {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
-    height: 100dvh;
+  /* ===================== */
+  /* MOBILE (<=768px)      */
+  /* ===================== */
+  @media (max-width: 768px) {
+    .layout { display: block; }
+    .col-right { display: none; }
+    .sommaire-header { display: none; }
+
+    .sticky-top { position: sticky; top: 0; z-index: 100; }
+
+    .top-bar {
+      background: var(--bg-dark);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .step-hero {
+      background: var(--bg-dark);
+      padding: 14px 20px 12px;
+      border-bottom: 1px solid var(--line);
+    }
+    .step-name { font-size: 26px; }
+
+    .video-section {
+      background: var(--bg-dark);
+      padding: 12px 20px 10px;
+      transition: all 0.3s ease;
+    }
+    .video-section.reduit { padding: 6px 20px; }
+    .video-section.masque { padding: 0; overflow: hidden; max-height: 0; }
+
+    .nav-section {
+      padding: 10px 20px 12px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .view-toggle {
+      padding: 7px 20px;
+      background: var(--bg-dark);
+      border-bottom: 1px solid var(--line);
+    }
+
+    /* Sur mobile le sommaire vient du col-left */
+    .chapters-section { padding: 14px 20px 40px; }
   }
 
-  .top-bar {
-    background: var(--bg-dark);
-    padding: 12px 24px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-  }
+  /* ===================== */
+  /* COMMUN                */
+  /* ===================== */
   .brand-mark { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 16px; color: var(--yellow); letter-spacing: 0.12em; text-transform: uppercase; }
   .doc-ref { font-size: 11px; color: var(--mid); letter-spacing: 0.10em; text-transform: uppercase; }
 
-  .step-hero {
-    background: var(--bg-dark);
-    padding: 16px 24px 14px;
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-  }
   .step-tag { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--yellow); margin-bottom: 3px; }
-  .step-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 30px; color: var(--white); line-height: 1.05; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 3px; }
+  .step-name { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; color: var(--white); line-height: 1.05; letter-spacing: 0.02em; text-transform: uppercase; margin-bottom: 3px; }
   .step-count { font-size: 12px; color: var(--mid); }
   .progress-track { background: rgba(255,255,255,0.10); height: 3px; width: 100%; margin-top: 12px; border-radius: 2px; overflow: hidden; }
   .progress-fill { height: 100%; background: var(--yellow); border-radius: 2px; transition: width 0.4s ease; }
 
-  .video-section {
-    padding: 14px 24px 10px;
-    background: var(--bg-dark);
-    flex-shrink: 0;
-  }
-  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 6px; overflow: hidden; }
+  .video-wrap { position: relative; width: 100%; padding-top: 56.25%; background: #000; border-radius: 6px; overflow: hidden; transition: all 0.3s ease; }
   .video-wrap iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+  .video-section.reduit .video-wrap { padding-top: 30%; }
 
-  .nav-section {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    padding: 10px 24px 12px;
-    background: var(--bg-dark);
-    border-bottom: 1px solid var(--line);
-    flex-shrink: 0;
-  }
+  .nav-section { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
   .nav-btn { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 13px 16px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.15); background: var(--bg-card); color: var(--white); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.18s; }
   .nav-btn:hover { background: #4f555e; border-color: rgba(255,255,255,0.25); }
   .nav-btn:active { transform: scale(0.97); }
@@ -85,13 +182,17 @@
   .btn-next:hover { background: var(--yellow-dark); border-color: var(--yellow-dark); }
   .btn-next:disabled { background: var(--bg-card); border-color: var(--bg-card); color: var(--mid); }
 
-  /* SOMMAIRE SCROLLABLE */
-  .chapters-section {
-    flex: 1;
-    overflow-y: auto;
-    padding: 16px 24px 24px;
-    -webkit-overflow-scrolling: touch;
-  }
+  .view-toggle { display: flex; gap: 6px; align-items: center; }
+  .view-toggle span { font-size: 11px; color: var(--mid); text-transform: uppercase; letter-spacing: 0.1em; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; margin-right: 4px; }
+  .vbtn { display: flex; align-items: center; gap: 5px; padding: 5px 10px; border-radius: 4px; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: var(--mid); font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; transition: all 0.15s; }
+  .vbtn:hover { background: var(--bg-card); color: var(--white); }
+  .vbtn.active { background: var(--bg-card); border-color: var(--yellow); color: var(--yellow); }
+  .vbtn svg { width: 13px; height: 13px; stroke: currentColor; stroke-width: 2; fill: none; }
+
+  .sommaire-header { }
+  .sommaire-title { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 18px; color: var(--white); text-transform: uppercase; letter-spacing: 0.08em; }
+  .sommaire-sub { font-size: 12px; color: var(--mid); margin-top: 2px; }
+
   .chapters-label { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; }
   .chapter-list { display: flex; flex-direction: column; gap: 2px; }
   .chapter-item { display: flex; align-items: center; gap: 14px; padding: 10px 12px; border-radius: 4px; cursor: pointer; transition: background 0.15s; border-left: 2px solid transparent; }
@@ -103,58 +204,79 @@
   .ch-name { font-size: 14px; color: var(--white); flex: 1; }
   .chapter-item.active .ch-name { font-weight: 500; }
   .ch-time { font-size: 12px; color: var(--mid); font-variant-numeric: tabular-nums; }
-
-  @media (max-width: 480px) {
-    .top-bar { padding: 10px 16px; }
-    .step-hero { padding: 12px 16px 12px; }
-    .step-name { font-size: 24px; }
-    .video-section { padding: 10px 16px 8px; }
-    .nav-section { padding: 8px 16px 10px; }
-    .chapters-section { padding: 12px 16px 20px; }
-  }
 </style>
 </head>
 <body>
-<div id="app">
 
-  <div class="top-bar">
-    <span class="brand-mark">Guide de montage</span>
-    <span class="doc-ref">CS 980 259 A</span>
-  </div>
+<div class="layout">
 
-  <div class="step-hero">
-    <div class="step-tag" id="step-tag">Introduction</div>
-    <div class="step-name" id="step-name">Introduction</div>
-    <div class="step-count" id="step-count">Étape 1 sur 21</div>
-    <div class="progress-track">
-      <div class="progress-fill" id="progress-fill" style="width: 4.76%"></div>
+  <!-- COLONNE GAUCHE (desktop) / PAGE ENTIÈRE (mobile) -->
+  <div class="col-left">
+    <div class="sticky-top">
+      <div class="top-bar">
+        <span class="brand-mark">Guide de montage</span>
+        <span class="doc-ref">CS 980 259 A</span>
+      </div>
+      <div class="step-hero">
+        <div class="step-tag" id="step-tag">Introduction</div>
+        <div class="step-name" id="step-name">Introduction</div>
+        <div class="step-count" id="step-count">Étape 1 sur 21</div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill" style="width: 4.76%"></div>
+        </div>
+      </div>
+      <div class="video-section" id="video-section">
+        <div class="video-wrap">
+          <iframe id="yt-player"
+            src="https://www.youtube.com/embed/4XRWs2hcHJg?enablejsapi=1&start=0&rel=0&modestbranding=1"
+            allow="autoplay; encrypted-media"
+            allowfullscreen>
+          </iframe>
+        </div>
+      </div>
+      <div class="nav-section">
+        <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+          Précédent
+        </button>
+        <button class="nav-btn btn-next" id="btn-next" onclick="navigate(1)">
+          Suivant
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+      </div>
+      <div class="view-toggle">
+        <span>Vidéo :</span>
+        <button class="vbtn active" id="btn-normal" onclick="setView('normal')">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="14" rx="2"/><line x1="12" y1="18" x2="12" y2="20"/></svg>
+          Normal
+        </button>
+        <button class="vbtn" id="btn-reduit" onclick="setView('reduit')">
+          <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="10" rx="2"/></svg>
+          Réduit
+        </button>
+        <button class="vbtn" id="btn-masque" onclick="setView('masque')">
+          <svg viewBox="0 0 24 24"><line x1="2" y1="2" x2="22" y2="22"/><path d="M6.7 6.7A10 10 0 0 0 3 12c2 4 6 7 9 7a9.6 9.6 0 0 0 5.3-1.7M9.9 4.2A9.8 9.8 0 0 1 12 4c3 0 7 3 9 8a10.6 10.6 0 0 1-1.8 3"/></svg>
+          Masqué
+        </button>
+      </div>
+    </div>
+
+    <!-- Sommaire mobile uniquement -->
+    <div class="chapters-section" id="chapters-mobile">
+      <div class="chapters-label">Sommaire</div>
+      <div class="chapter-list" id="chapter-list-mobile"></div>
     </div>
   </div>
 
-  <div class="video-section">
-    <div class="video-wrap">
-      <iframe id="yt-player"
-        src="https://www.youtube.com/embed/4XRWs2hcHJg?enablejsapi=1&start=0&rel=0&modestbranding=1"
-        allow="autoplay; encrypted-media"
-        allowfullscreen>
-      </iframe>
+  <!-- COLONNE DROITE : sommaire desktop uniquement -->
+  <div class="col-right">
+    <div class="sommaire-header">
+      <div class="sommaire-title">Sommaire</div>
+      <div class="sommaire-sub" id="sommaire-sub">Étape 1 sur 21</div>
     </div>
-  </div>
-
-  <div class="nav-section">
-    <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>
-      <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
-      Précédent
-    </button>
-    <button class="nav-btn btn-next" id="btn-next" onclick="navigate(1)">
-      Suivant
-      <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
-    </button>
-  </div>
-
-  <div class="chapters-section">
-    <div class="chapters-label">Sommaire</div>
-    <div class="chapter-list" id="chapter-list"></div>
+    <div class="chapters-section">
+      <div class="chapter-list" id="chapter-list-desktop"></div>
+    </div>
   </div>
 
 </div>
@@ -189,6 +311,14 @@ let current = 0;
 let player = null;
 let trackInterval = null;
 
+function setView(mode) {
+  const vs = document.getElementById('video-section');
+  vs.className = 'video-section' + (mode !== 'normal' ? ' ' + mode : '');
+  ['normal','reduit','masque'].forEach(m => {
+    document.getElementById('btn-' + m).classList.toggle('active', m === mode);
+  });
+}
+
 const tag = document.createElement('script');
 tag.src = 'https://www.youtube.com/iframe_api';
 document.head.appendChild(tag);
@@ -210,7 +340,6 @@ function startTracking() {
   trackInterval = setInterval(function() {
     if (!player || !player.getCurrentTime) return;
     const t = player.getCurrentTime();
-    // Trouver le chapitre correspondant au timecode actuel
     let idx = 0;
     for (let i = steps.length - 1; i >= 0; i--) {
       if (t >= steps[i].time) { idx = i; break; }
@@ -241,13 +370,16 @@ function updateUI(index) {
   document.getElementById('step-tag').textContent = getTag(current);
   document.getElementById('step-name').textContent = step.label;
   document.getElementById('step-count').textContent = 'Étape ' + (current + 1) + ' sur ' + steps.length;
+  if (document.getElementById('sommaire-sub'))
+    document.getElementById('sommaire-sub').textContent = 'Étape ' + (current + 1) + ' sur ' + steps.length;
   document.getElementById('progress-fill').style.width = Math.round(((current + 1) / steps.length) * 100) + '%';
   document.getElementById('btn-prev').disabled = current === 0;
   document.getElementById('btn-next').disabled = current === steps.length - 1;
-  document.querySelectorAll('.chapter-item').forEach((el, i) => {
-    el.className = 'chapter-item' + (i === current ? ' active' : i < current ? ' done' : '');
+  ['mobile','desktop'].forEach(function(t) {
+    document.querySelectorAll('#chapter-list-' + t + ' .chapter-item').forEach(function(el, i) {
+      el.className = 'chapter-item' + (i === current ? ' active' : i < current ? ' done' : '');
+    });
   });
-  document.querySelectorAll('.chapter-item')[current].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
 }
 
 function goTo(index) {
@@ -266,18 +398,23 @@ function navigate(dir) {
   if (next >= 0 && next < steps.length) goTo(next);
 }
 
-const list = document.getElementById('chapter-list');
-steps.forEach((s, i) => {
-  const el = document.createElement('div');
-  el.className = 'chapter-item' + (i === 0 ? ' active' : '');
-  const numLabel = i === 0 ? 'Intro' : i === steps.length - 1 ? 'Fin' : String(i).padStart(2, '0');
-  el.innerHTML =
-    '<span class="ch-num">' + numLabel + '</span>' +
-    '<span class="ch-name">' + s.label + '</span>' +
-    '<span class="ch-time">' + fmtTime(s.time) + '</span>';
-  el.onclick = () => goTo(i);
-  list.appendChild(el);
-});
+function buildList(containerId) {
+  const list = document.getElementById(containerId);
+  steps.forEach(function(s, i) {
+    const el = document.createElement('div');
+    el.className = 'chapter-item' + (i === 0 ? ' active' : '');
+    const numLabel = i === 0 ? 'Intro' : i === steps.length - 1 ? 'Fin' : String(i).padStart(2, '0');
+    el.innerHTML =
+      '<span class="ch-num">' + numLabel + '</span>' +
+      '<span class="ch-name">' + s.label + '</span>' +
+      '<span class="ch-time">' + fmtTime(s.time) + '</span>';
+    el.onclick = function() { goTo(i); };
+    list.appendChild(el);
+  });
+}
+
+buildList('chapter-list-mobile');
+buildList('chapter-list-desktop');
 </script>
 </body>
 </html>
