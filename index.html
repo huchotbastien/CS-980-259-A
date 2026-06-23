@@ -25,6 +25,8 @@
   /* ===================== */
   @media (min-width: 769px) {
     body { overflow: hidden; height: 100vh; }
+    .sticky-top { position: static; }
+    .nav-mobile-only { display: none; }
 
     .layout {
       display: grid;
@@ -38,7 +40,7 @@
       display: flex;
       flex-direction: column;
       height: 100vh;
-      overflow: hidden;
+      overflow-y: auto;
       border-right: 1px solid var(--line);
     }
 
@@ -114,6 +116,7 @@
     .sommaire-header { display: none; }
 
     .sticky-top { position: sticky; top: 0; z-index: 100; }
+    .nav-desktop-only { display: none; }
 
     .top-bar {
       background: var(--bg-dark);
@@ -214,7 +217,7 @@
   <div class="col-left">
     <div class="sticky-top">
       <div class="top-bar">
-        <span class="brand-mark">Guide de montage</span>
+        <span class="brand-mark">Guide de montage suivant les étapes de la notice</span>
         <span class="doc-ref">CS 980 259 A</span>
       </div>
       <div class="step-hero">
@@ -234,7 +237,7 @@
           </iframe>
         </div>
       </div>
-      <div class="nav-section">
+      <div class="nav-section nav-mobile-only">
         <button class="nav-btn" id="btn-prev" onclick="navigate(-1)" disabled>
           <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
           Précédent
@@ -270,6 +273,16 @@
 
   <!-- COLONNE DROITE : sommaire desktop uniquement -->
   <div class="col-right">
+    <div class="nav-section nav-desktop-only" style="padding:14px 16px 12px; border-bottom:1px solid var(--line); flex-shrink:0;">
+      <button class="nav-btn" id="btn-prev-d" onclick="navigate(-1)" disabled>
+        <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"/></svg>
+        Précédent
+      </button>
+      <button class="nav-btn btn-next" id="btn-next-d" onclick="navigate(1)">
+        Suivant
+        <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
     <div class="sommaire-header">
       <div class="sommaire-title">Sommaire</div>
       <div class="sommaire-sub" id="sommaire-sub">Étape 1 sur 21</div>
@@ -374,7 +387,9 @@ function updateUI(index) {
     document.getElementById('sommaire-sub').textContent = 'Étape ' + (current + 1) + ' sur ' + steps.length;
   document.getElementById('progress-fill').style.width = Math.round(((current + 1) / steps.length) * 100) + '%';
   document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-prev-d').disabled = current === 0;
   document.getElementById('btn-next').disabled = current === steps.length - 1;
+  document.getElementById('btn-next-d').disabled = current === steps.length - 1;
   ['mobile','desktop'].forEach(function(t) {
     document.querySelectorAll('#chapter-list-' + t + ' .chapter-item').forEach(function(el, i) {
       el.className = 'chapter-item' + (i === current ? ' active' : i < current ? ' done' : '');
