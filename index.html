@@ -111,13 +111,9 @@
       flex: 1;
       overflow-y: auto;
       padding: 10px 14px 20px;
-      scrollbar-width: thin;
-      scrollbar-color: var(--bg-card) transparent;
+      scrollbar-width: none;
     }
-    .chapters-section::-webkit-scrollbar { width: 4px; }
-    .chapters-section::-webkit-scrollbar-track { background: transparent; }
-    .chapters-section::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 2px; }
-    .chapters-section::-webkit-scrollbar-thumb:hover { background: var(--mid); }
+    .chapters-section::-webkit-scrollbar { display: none; }
   }
 
   /* ===================== */
@@ -245,7 +241,7 @@
       <div class="video-section" id="video-section">
         <div class="video-wrap">
           <iframe id="yt-player"
-            src="https://www.youtube.com/embed/4XRWs2hcHJg?enablejsapi=1&start=0&rel=0&modestbranding=1"
+            src="https://www.youtube.com/embed/kzebDW0Ydss?enablejsapi=1&start=0&rel=0&modestbranding=1"
             allow="autoplay; encrypted-media"
             allowfullscreen>
           </iframe>
@@ -310,7 +306,7 @@
 </div>
 
 <script>
-const VIDEO_ID = '4XRWs2hcHJg';
+const VIDEO_ID = 'kzebDW0Ydss';
 const steps = [
   { label: "Introduction",                                                                        time: 0 },
   { label: "Prérequis",                                                                           time: 30 },
